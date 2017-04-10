@@ -6,7 +6,7 @@ var mysql = require('mysql');
 
 
 //var index = require('./routes/index');
-var rgapi = require('./routes/rgapi')
+var rgapi = require('./routes/rgapi');
 
 
 

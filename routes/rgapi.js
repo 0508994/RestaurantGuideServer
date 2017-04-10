@@ -4,8 +4,8 @@ var router  = express.Router();
 
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'admin',//milan
-  password : 'admin',//milan
+  user     : 'milan',//milan
+  password : 'milan',//milan
   database : 'mydb'
 });
 
@@ -19,3 +19,5 @@ router.post('/getCity', function(req, res){
 
     connection.end();
 });
+
+module.exports = router;
