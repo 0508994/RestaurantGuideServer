@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var multer  = require('multer');
+var mysql = require('mysql');
 
 
 //var index = require('./routes/index');
