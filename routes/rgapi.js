@@ -9,15 +9,21 @@ var connection = mysql.createConnection({
   database : 'mydb'
 });
 
+connection.connect();
+
+
 router.post('/getCity', function(req, res){
-    connection.connect();
+        
 
-        connection.query('SELECT * from city', function (error, results, fields) {
+        var name = req.body.cityName;
+        console.log(name);
+        connection.query('SELECT Name FROM City WHERE Name =?',[name], function (error, results, fields) {
+          
         if (error) throw error;
-            console.log('The city is: ', results[0].Name);
+            console.log('The city is: ', results[0]);   
+            return res.json(results[0]);
         });
-
-    connection.end();
+   
 });
 
 module.exports = router;
