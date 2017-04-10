@@ -5,7 +5,7 @@ var multer  = require('multer');
 
 
 //var index = require('./routes/index');
-//var user = require('./routes/user')
+var rgapi = require('./routes/rgapi')
 
 
 
@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 
 //app.use('/', index);
-//app.use('/api', user);
+app.use('/api', rgapi);
 
 app.listen(port, function(){
     console.log('Server started on port', + port);
