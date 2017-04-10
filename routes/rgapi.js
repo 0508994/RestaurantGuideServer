@@ -4,8 +4,8 @@ var router  = express.Router();
 
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'milan',//milan
-  password : 'milan',//milan
+  user     : 'admin',//milan
+  password : 'admin',//milan
   database : 'mydb'
 });
 
@@ -13,8 +13,6 @@ connection.connect();
 
 
 router.post('/getCity', function(req, res){
-        
-
         var name = req.body.cityName;
         console.log(name);
         connection.query('SELECT Name FROM City WHERE Name =?',[name], function (error, results, fields) {
