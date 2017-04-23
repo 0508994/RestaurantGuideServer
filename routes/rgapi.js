@@ -2,6 +2,9 @@ var express  = require('express');
 var mysql = require('mysql');
 var router  = express.Router();
 var multer  = require('multer');
+//var googleMapsClient = require('@google/maps').createClient({key:'AIzaSyAwhkF547Hfm-wh-EO2M_MQ0UFpomkYIpw'});
+//var googleDistance = require('google-distance');
+
 var upload = multer({dest:'./public/images/'});
 
 var connection = mysql.createConnection({
@@ -16,13 +19,57 @@ connection.connect();
 
 router.post('/getCityByName', function(req, res){
         var name = 'Nis';/*req.body.cityName*/;
-      
+        console.log("called");
         connection.query('SELECT Name FROM City WHERE Name =?',[name], function (error, results, fields) {
             if (error) throw error;
 
             return res.send(results[0]);
         });
 });
+
+
+router.post('/getNearbyPlaces', function(req, res){
+    var distance = 2;//zadata udaljenost od strane korisnika
+    var lat = 43.3178475;//trenutna lokacija korisnika 
+    var long = 21.8854669;
+
+
+    connection.query('SELECT * FROM Place', function(error,results,fields){
+        if (error) throw error;
+        var array = new Array();
+        var dist = 0;
+   
+        for (var i=0; i<results.length; i++)
+        {
+            //  googleDistance.get({index:1, origin:JSON.stringify(lat+','+long), destination: JSON.stringify(results[i].Latitude+','+results[i].Longitude)}, function(err, data){
+            //         if (err) return error;
+                    
+            //         dist = data.distance;
+            //         if(dist<distance)
+            //         {
+            //             array.push(results[i]);
+            //         }
+            // });
+            dist =  getDistanceFromLatLonInKm(lat,long,results[i].Latitude, results[i].Longitude);
+            if(dist<distance)
+            {
+                array.push(results[i]);
+            }
+        }
+        
+        return res.send(array);
+    });
+});
+
+function calculateDistance(lat1, long1, lat2, long2, dist)
+{
+   googleDistance.get({index:1, origin:JSON.stringify(lat1+','+long1), destination: JSON.stringify(lat2+','+long2)}, function(err, data, dist){
+         if (err) return error;
+
+         dist = data.distance;
+         return data.distance;
+   });
+}
 
 router.post('/getPlaceByName', function(req, res){
     var name = req.body.placeName;//'Pleasure';/*req.body.placeName*/
@@ -108,27 +155,7 @@ router.post('getPlaceByCoucineAndMusic', function(req, res){
     });
 });
 
-
-router.post('getNearbyPlaces', function(req, res){
-    var distance = req.distance;//zadata udaljenost od strane korisnika
-    var long = req.long;//trenutna lokacija korisnika 
-    var lat = req.lat;
-
-    connection.query('SELECT * FROM Place', function(error,results,fields){
-        if (error) throw error;
-        var array = new Array();
-
-        for (var i=0; i<results.length; i++)
-        {
-            if(getDistanceFromLatLonInKm(lat,long, results[i].Latitude, results[i].Longitude)<distance)
-            {
-                array.push(results[i]);
-            }
-        }
-        
-        return res.send(array);
-    });
-});//posle cemo u klijentskom delu isfiltrirati ove podatke
+//posle cemo u klijentskom delu isfiltrirati ove podatke
 
 
 //---------------------------------------------------------------------------------------------------
