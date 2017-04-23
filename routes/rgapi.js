@@ -6,8 +6,8 @@ var upload = multer({dest:'./public/images/'});
 
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'milan',//milan
-  password : 'milan',//milan
+  user     : 'admin',//milan
+  password : 'admin',//milan
   database : 'mydb'
 });
 
@@ -108,6 +108,29 @@ router.post('getPlaceByCoucineAndMusic', function(req, res){
     });
 });
 
+
+router.post('getNearbyPlaces', function(req, res){
+    var distance = req.distance;//zadata udaljenost od strane korisnika
+    var long = req.long;//trenutna lokacija korisnika 
+    var lat = req.lat;
+
+    connection.query('SELECT * FROM Place', function(error,results,fields){
+        if (error) throw error;
+        var array = new Array();
+
+        for (var i=0; i<results.length; i++)
+        {
+            if(getDistanceFromLatLonInKm(lat,long, results[i].Latitude, results[i].Longitude)<distance)
+            {
+                array.push(results[i]);
+            }
+        }
+        
+        return res.send(array);
+    });
+});//posle cemo u klijentskom delu isfiltrirati ove podatke
+
+
 //---------------------------------------------------------------------------------------------------
 
 
@@ -125,5 +148,22 @@ router.post('/imageUpload', upload.single('pic'), function (req, res) {
 });
 
 
+function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+  var dLon = deg2rad(lon2-lon1); 
+  var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ; 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  var d = R * c; // Distance in km
+  return d;
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI/180)
+}
 
 module.exports = router;
