@@ -6,8 +6,8 @@ var upload = multer({dest:'./public/images/'});
 
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'admin',//milan
-  password : 'admin',//milan
+  user     : 'milan',//milan
+  password : 'milan',//milan
   database : 'mydb'
 });
 
@@ -20,7 +20,7 @@ router.post('/getCityByName', function(req, res){
         connection.query('SELECT Name FROM City WHERE Name =?',[name], function (error, results, fields) {
             if (error) throw error;
 
-            return res.end(JSON.stringify(results[0]));
+            return res.send(results[0]);
         });
 });
 
