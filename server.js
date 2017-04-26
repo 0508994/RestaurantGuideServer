@@ -3,6 +3,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var multer  = require('multer');
 var mysql = require('mysql');
+var cors = require('cors');
 
 
 //var index = require('./routes/index');
@@ -11,6 +12,7 @@ var rgapi = require('./routes/rgapi');
 
 
 var app = express();
+app.use(cors());
 var port = 8000;
 //view engine
 

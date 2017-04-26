@@ -10,7 +10,7 @@ var upload = multer({dest:'./public/images/'});
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'admin',//milan
-  password : 'admin',//milan
+  password : 'IpNjqFxFZa8C0C0b',//milan
   database : 'mydb'
 });
 
@@ -18,7 +18,8 @@ connection.connect();
 
 
 router.post('/getCityByName', function(req, res){
-        var name = 'Nis';/*req.body.cityName*/;
+        var name = 'Nis';
+        //var name = req.body.cityName;
         console.log("called");
         connection.query('SELECT Name FROM City WHERE Name =?',[name], function (error, results, fields) {
             if (error) throw error;
@@ -29,8 +30,9 @@ router.post('/getCityByName', function(req, res){
 
 
 router.post('/getNearbyPlaces', function(req, res){
-    var distance = 2;//zadata udaljenost od strane korisnika
-    var lat = 43.3178475;//trenutna lokacija korisnika 
+    var distance = req.body.distance;//zadata udaljenost od strane korisnika
+    console.log(distance);
+    var lat = 43.3178475;//trenutna lokacija korisnika
     var long = 21.8854669;
 
 
@@ -38,12 +40,12 @@ router.post('/getNearbyPlaces', function(req, res){
         if (error) throw error;
         var array = new Array();
         var dist = 0;
-   
+
         for (var i=0; i<results.length; i++)
         {
             //  googleDistance.get({index:1, origin:JSON.stringify(lat+','+long), destination: JSON.stringify(results[i].Latitude+','+results[i].Longitude)}, function(err, data){
             //         if (err) return error;
-                    
+
             //         dist = data.distance;
             //         if(dist<distance)
             //         {
@@ -56,7 +58,7 @@ router.post('/getNearbyPlaces', function(req, res){
                 array.push(results[i]);
             }
         }
-        
+
         return res.send(array);
     });
 });
@@ -73,10 +75,10 @@ function calculateDistance(lat1, long1, lat2, long2, dist)
 
 router.post('/getPlaceByName', function(req, res){
     var name = req.body.placeName;//'Pleasure';/*req.body.placeName*/
-    
+
     connection.query('SELECT * FROM Place WHERE Name =?',[name],function(error,results,fields){
             if(error) throw error;
-            
+
             return res.end(JSON.stringify(results[0]));
     });
 });
@@ -85,10 +87,10 @@ router.post('/getPlaceByName', function(req, res){
 //netestirane funkcije
 router.post('/getPlaceById', function(req, res){
     var placeId = 'Pleasure';/*req.body.placeName*/
-    
+
     connection.query('SELECT * FROM Place WHERE PlaceId =?',[placeId],function(error,results,fields){
             if(error) throw error;
-            
+
             return res.end(JSON.stringify(results[0]));
     });
 });
@@ -168,8 +170,8 @@ router.post('/imageUpload', upload.single('pic'), function (req, res) {
         var filename = req.file.filename;
 
         connection.query('INSERT INTO PICTURE (Name, TakerNickname, Place_PlaceId) VALUES(?, ?, ?) ',[fileName, takerNick, filename], function (error, results, fields) {
-          
-        if (error) throw error; 
+
+        if (error) throw error;
             return res.end("Success!");
         });
 });
@@ -178,13 +180,13 @@ router.post('/imageUpload', upload.single('pic'), function (req, res) {
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2-lat1);  // deg2rad below
-  var dLon = deg2rad(lon2-lon1); 
-  var a = 
+  var dLon = deg2rad(lon2-lon1);
+  var a =
     Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
     Math.sin(dLon/2) * Math.sin(dLon/2)
-    ; 
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    ;
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
   var d = R * c; // Distance in km
   return d;
 }
