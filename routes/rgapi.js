@@ -9,9 +9,9 @@ var upload = multer({dest:'./public/images/'});
 
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'admin',//milan
-  password : 'IpNjqFxFZa8C0C0b',//milan
-  database : 'mydb'
+  user     : 'root',//milan
+  password : '',//milan
+  database : 'RestaurantGuide_Database'
 });
 
 connection.connect();
@@ -32,8 +32,8 @@ router.post('/getCityByName', function(req, res){
 router.post('/getNearbyPlaces', function(req, res){
     var distance = req.body.distance;//zadata udaljenost od strane korisnika
     console.log(distance);
-    var lat = 43.3178475;//trenutna lokacija korisnika
-    var long = 21.8854669;
+    var lat = req.body.location.latitude;//trenutna lokacija korisnika
+    var long = req.body.location.longitude;
 
 
     connection.query('SELECT * FROM Place', function(error,results,fields){
@@ -55,6 +55,8 @@ router.post('/getNearbyPlaces', function(req, res){
             dist =  getDistanceFromLatLonInKm(lat,long,results[i].Latitude, results[i].Longitude);
             if(dist<distance)
             {
+                 
+                results[i].distance = Number((dist).toFixed(2));
                 array.push(results[i]);
             }
         }
