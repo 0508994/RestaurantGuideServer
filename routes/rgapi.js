@@ -36,6 +36,8 @@ router.post('/getNearbyPlaces', function(req, res){
     var lat = req.body.location.latitude;//trenutna lokacija korisnika
     var long = req.body.location.longitude;
 
+    console.log(lat);
+    console.log(long);
 
     connection.query('SELECT * FROM Place', function(error,results,fields){
         if (error) throw error;
