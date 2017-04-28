@@ -11,7 +11,8 @@ var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',//milan
   password : '',//milan
-  database : 'RestaurantGuide_Database'
+  //database : 'RestaurantGuide_Database'
+  database : 'mydb'
 });
 
 connection.connect();
@@ -55,7 +56,7 @@ router.post('/getNearbyPlaces', function(req, res){
             dist =  getDistanceFromLatLonInKm(lat,long,results[i].Latitude, results[i].Longitude);
             if(dist<distance)
             {
-                 
+
                 results[i].distance = Number((dist).toFixed(2));
                 array.push(results[i]);
             }
@@ -97,7 +98,7 @@ router.post('/getPlaceById', function(req, res){
     });
 });
 
-router.post('getCommentById', function(req,res){
+router.post('/getCommentById', function(req,res){
     var commentId = req.body.commentId;
 
     connection.query('SELECT * FROM Comment WHERE CommentId = ?', [commentId], function(error,results,fields){
@@ -107,7 +108,7 @@ router.post('getCommentById', function(req,res){
     });
 });
 
-router.post('getRestaurantsByCoucine', function (req, res){
+router.post('/getRestaurantsByCoucine', function (req, res){
     var coucine = req.body.coucine;//italijanska, spanska, kineska, francuska, engleska, ruska, balkanska
 
     connection.query('SELECT * FROM Place WHERE Coucine = ?', [coucine], function(error, results,fields){
@@ -118,7 +119,7 @@ router.post('getRestaurantsByCoucine', function (req, res){
 });
 
 
-router.post('getPlacesByLiveMusic', function (req, res){
+router.post('/getPlacesByLiveMusic', function (req, res){
     var liveMusicBool = req.body.liveMusic; //prosledjujemo YES ili NO, kako ce i stajati u bazi
 
     connection.query('SELECT * FROM Place WHERE LiveMusic = ?', [liveMusicBool], function(error, results, fields){
@@ -128,7 +129,7 @@ router.post('getPlacesByLiveMusic', function (req, res){
     });
 });
 
-router.post ('getPlacesByType', function (req, res){
+router.post ('/getPlacesByType', function (req, res){
     var placeType = req.body.placeType; //'restoran', 'kafana', 'kafic', klub
 
     connection.query('SELECT * FROM Place WHERE PlaceType = ?', [placeType], function(error, results, fields){
@@ -138,7 +139,7 @@ router.post ('getPlacesByType', function (req, res){
     });
 });
 
-router.post('getCommentsByPlaceId', function(req, res){
+router.post('/getCommentsByPlaceId', function(req, res){
     var placeId = req.body.placeId;
 
     connection.query('SELECT * FROM Comment WHERE PlaceId = ?',[placeId], function( error,results, fields){
@@ -148,14 +149,18 @@ router.post('getCommentsByPlaceId', function(req, res){
     });
 });
 
-router.post('getPlaceByCoucineAndMusic', function(req, res){
+router.post('/getPlacesByCriterias', function(req, res){
     var coucine = req.body.coucine;
     var music = req.body.liveMusic;
+    var type = req.body.type;
+    console.log(coucine);
+    console.log(music);
+    console.log(type);
 
-    connection.query('SELECT * FROM Place WHERE Coucine = ? AND LiveMusic = ?', [coucine,music], function(error, results, fields){
+    connection.query('SELECT * FROM Place WHERE Coucine = ? AND LiveMusic = ? AND PlaceType = ?', [coucine, music, type], function(error, results, fields){
         if(error) throw error;
 
-        return res.end(JSON.stringify(results));
+        return res.send(results);
     });
 });
 
