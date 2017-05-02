@@ -11,8 +11,8 @@ var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',//milan
   password : '',//milan
-  //database : 'RestaurantGuide_Database'
-  database : 'mydb'
+  database : 'RestaurantGuide_Database'
+  //database : 'mydb'
 });
 
 connection.connect();
