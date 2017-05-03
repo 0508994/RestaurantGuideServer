@@ -130,6 +130,18 @@ router.post('/getPlaceReviews', function(req, res){
     });
 });
 
+router.post('/getPhotosInformations', function(req, res){
+    var id = req.body.placeId;
+
+    console.log(id);
+
+    connection.query('SELECT * FROM PICTURE WHERE Place_PlaceId = ?', [id], function(error, results, fields){
+        if(error) throw error;
+
+        return res.send(results);
+    });
+});
+
 router.post('/createComment', function(req, res){
     var review = req.body.review;
     var timestamp = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
@@ -148,16 +160,17 @@ router.post('/createComment', function(req, res){
 
 
 router.post('/imageUpload', upload.single('pic'), function (req, res) {
-     //return res.end(req.file.filename);   // ako nece uradi strinfnfnif kao u CH
-        var takerNick = req.body.takerNick;
-        var placeId = req.body.placeId;
-        var filename = req.file.filename;
-
-        connection.query('INSERT INTO PICTURE (Name, TakerNickname, Place_PlaceId) VALUES(?, ?, ?) ',[fileName, takerNick, filename], function (error, results, fields) {
-
-        if (error) throw error;
-            return res.end("Success!");
-        });
+     //return res.end(req.file.filename);
+        // var takerNick = req.body.takerNick;
+        // var placeId = req.body.placeId;
+        // var filename = req.file.filename;
+        //
+        // connection.query('INSERT INTO PICTURE (Name, TakerNickname, Place_PlaceId) VALUES(?, ?, ?) ',[fileName, takerNick, filename], function (error, results, fields) {
+        //
+        // if (error) throw error;
+        //     return res.end("Success!");
+        // });
+        return res.end("Success!");
 });
 
 
