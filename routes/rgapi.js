@@ -9,10 +9,10 @@ var upload = multer({dest:'./public/images/'});
 
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'root',//milan
-  password : '',//milan
-  //database : 'RestaurantGuide_Database'
-  database : 'mydb'
+  user     : 'root',
+  password : '',
+  database : 'RestaurantGuide_Database'
+  //database : 'mydb'
 });
 
 connection.connect();
@@ -36,6 +36,8 @@ router.post('/getNearbyPlaces', function(req, res){
     var lat = req.body.location.latitude;//trenutna lokacija korisnika
     var long = req.body.location.longitude;
 
+    console.log(lat);
+    console.log(long);
 
     connection.query('SELECT * FROM Place', function(error,results,fields){
         if (error) throw error;
@@ -76,78 +78,6 @@ function calculateDistance(lat1, long1, lat2, long2, dist)
    });
 }
 
-router.post('/getPlaceByName', function(req, res){
-    var name = req.body.placeName;//'Pleasure';/*req.body.placeName*/
-
-    connection.query('SELECT * FROM Place WHERE Name =?',[name],function(error,results,fields){
-            if(error) throw error;
-
-            return res.end(JSON.stringify(results[0]));
-    });
-});
-
-
-//netestirane funkcije
-router.post('/getPlaceById', function(req, res){
-    var placeId = 'Pleasure';/*req.body.placeName*/
-
-    connection.query('SELECT * FROM Place WHERE PlaceId =?',[placeId],function(error,results,fields){
-            if(error) throw error;
-
-            return res.end(JSON.stringify(results[0]));
-    });
-});
-
-router.post('/getCommentById', function(req,res){
-    var commentId = req.body.commentId;
-
-    connection.query('SELECT * FROM Comment WHERE CommentId = ?', [commentId], function(error,results,fields){
-            if(error) throw error;
-
-            return res.end(JSON.stringify(results[0]));
-    });
-});
-
-router.post('/getRestaurantsByCoucine', function (req, res){
-    var coucine = req.body.coucine;//italijanska, spanska, kineska, francuska, engleska, ruska, balkanska
-
-    connection.query('SELECT * FROM Place WHERE Coucine = ?', [coucine], function(error, results,fields){
-        if (error) throw error;
-
-        return res.end(JSON.stringify(results));
-    });
-});
-
-
-router.post('/getPlacesByLiveMusic', function (req, res){
-    var liveMusicBool = req.body.liveMusic; //prosledjujemo YES ili NO, kako ce i stajati u bazi
-
-    connection.query('SELECT * FROM Place WHERE LiveMusic = ?', [liveMusicBool], function(error, results, fields){
-        if (error) throw error;
-
-        return res.end(JSON.stringify(results));
-    });
-});
-
-router.post ('/getPlacesByType', function (req, res){
-    var placeType = req.body.placeType; //'restoran', 'kafana', 'kafic', klub
-
-    connection.query('SELECT * FROM Place WHERE PlaceType = ?', [placeType], function(error, results, fields){
-        if (error) throw error;
-
-        return res.end(JSON.stringify(results));
-    });
-});
-
-router.post('/getCommentsByPlaceId', function(req, res){
-    var placeId = req.body.placeId;
-
-    connection.query('SELECT * FROM Comment WHERE PlaceId = ?',[placeId], function( error,results, fields){
-        if(error) throw error;
-
-        return res.end(JSON.stringify(results));
-    });
-});
 
 router.post('/getPlacesByCriterias', function(req, res){
     var coucine = req.body.coucine;
@@ -164,10 +94,57 @@ router.post('/getPlacesByCriterias', function(req, res){
     });
 });
 
-//posle cemo u klijentskom delu isfiltrirati ove podatke
+router.post('/getPlaceByName', function(req, res){
+    var name = req.body.placeName;
 
+    console.log(name);
 
-//---------------------------------------------------------------------------------------------------
+    connection.query('SELECT * FROM Place WHERE Name = ?', [name], function(error, results, fields){
+        if(error) throw error;
+
+        return res.send(results[0]);
+    });
+});
+
+router.post('/getPlaceMenu', function(req, res){
+    var id = req.body.placeId;
+
+    console.log(id);
+
+    connection.query('SELECT * FROM MENUITEM WHERE PlaceId = ?', [id], function(error, results, fields){
+        if(error) throw error;
+
+        return res.send(results);
+    });
+});
+
+router.post('/getPlaceReviews', function(req, res){
+    var id = req.body.placeId;
+
+    console.log(id);
+
+    connection.query('SELECT * FROM COMMENT WHERE PlaceId = ?', [id], function(error, results, fields){
+        if(error) throw error;
+
+        return res.send(results);
+    });
+});
+
+router.post('/createComment', function(req, res){
+    var review = req.body.review;
+    var timestamp = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
+
+    connection.query('INSERT INTO COMMENT(Nickname, Text, Rating, Timestamp, PlaceId ) VALUES(?, ?, ?, ?, ?)', [review.nickname, review.comment, review.rating, timestamp, review.placeId], function(error, results, fields){
+        if(error) throw error;
+
+        connection.query('SELECT * FROM COMMENT WHERE PlaceId = ? ORDER BY Timestamp DESC', [review.placeId], function(error, results, fields){
+            if(error) throw error;
+
+            return res.send(results);
+        });
+    });
+});
+
 
 
 router.post('/imageUpload', upload.single('pic'), function (req, res) {
@@ -182,6 +159,8 @@ router.post('/imageUpload', upload.single('pic'), function (req, res) {
             return res.end("Success!");
         });
 });
+
+
 
 
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {

@@ -1,7 +1,7 @@
 INSERT INTO City(CityId, Name, Country, Description)
 VALUES(1, "Nis", "Serbia", "Konstantinov grad.");
 
-INSERT INTO PLACE (PlaceId, Name, CityId, PhotoURL, ReviewersNumber, GrossScore, LiveMusic, PlaceType, Coucine, Latitude, Longitude, PhoneNumber, Address, WorkingHours) 
+INSERT INTO PLACE (PlaceId, Name, CityId, PhotoURL, ReviewersNumber, GrossScore, LiveMusic, PlaceType, Coucine, Latitude, Longitude, PhoneNumber, Address, WorkingHours)
 VALUES (1, "Biser", 1, NULL, 0, 0, "Yes", "Kafana", "Balkanska", 43.317759, 21.8954513, "+381618079418", "Koste Stamenkovica 1", "7AM - 12AM");
 
 INSERT INTO PLACE (PlaceId, Name, CityId, PhotoURL, ReviewersNumber, GrossScore, LiveMusic, PlaceType, Coucine, Latitude, Longitude, PhoneNumber, Address, WorkingHours)
@@ -24,3 +24,39 @@ VALUES (7, "Berta", 1, NULL, 0, 0, "Yes", "Pivnica", "Međunarodna", 43.3180547,
 
 INSERT INTO PLACE (PlaceId, Name, CityId, PhotoURL, ReviewersNumber, GrossScore, LiveMusic, PlaceType, Coucine, Latitude, Longitude, PhoneNumber, Address, WorkingHours)
 VALUES (8, "Beer garden", 1, NULL, 0, 0, "Yes", "Pivnica", "Međunarodna", 43.3175997,21.8967537, "+3810654780857", "Dušanova 54,", "9AM - 2AM");
+
+
+-- mozda neka forma za ovo na samom serveru ?
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Brancin", "Nemam pojma šta je ovo.", 2, "200RSD");
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Lignje", "Najbolje lignje u istoriji lignjarstva.", 2, "200RSD");
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Orada", "Namam pojma šta je ovo.", 2, "200RSD");
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Škampi", "Nema lepše 'tice od prasice, kakvi škampi?", 2, "200RSD");
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Grčka musaka", "Ista kao i naša samo grčka.", 2, "200RSD");
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Bujurdi", "Nemam pojma šta je ovo.", 2, "200RSD");
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Grčka salata", "Šopska samo sa maslinama i origanom...", 2, "200RSD");
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Dagnje u saganiki sosu", "Kakve bre dagnje? Donesi mi jagnje!", 2, "200RSD");
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Rižoto sa ukusima mora", "Kao što mu ime kaže rižoto samo sa ukusom mora(čitaj morske hrane ne mora, more je apstrakcija).", 2, "200RSD");
+
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Sarmice od vinove loze", "Ustvari obične sarme samo sa lozom umesto kupusom.", 2, "200RSD");
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Pržene tikvice", "Tikvice ali pržene.", 2, "200RSD");
