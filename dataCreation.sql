@@ -25,6 +25,16 @@ VALUES (7, "Berta", 1, NULL, 0, 0, "Yes", "Pivnica", "Međunarodna", 43.3180547,
 INSERT INTO PLACE (PlaceId, Name, CityId, PhotoURL, ReviewersNumber, GrossScore, LiveMusic, PlaceType, Coucine, Latitude, Longitude, PhoneNumber, Address, WorkingHours)
 VALUES (8, "Beer garden", 1, NULL, 0, 0, "Yes", "Pivnica", "Međunarodna", 43.3175997,21.8967537, "+3810654780857", "Dušanova 54,", "9AM - 2AM");
 
+-- neka nova mesta za bazu
+
+INSERT INTO PLACE (PlaceId, Name, CityId, PhotoURL, ReviewersNumber, GrossScore, LiveMusic, PlaceType, Coucine, Latitude, Longitude, PhoneNumber, Address, WorkingHours)
+VALUES (8, "Stambolijski", 1, NULL, 0, 0, "Ne", "Restoran", "Balkanska", 43.3187213, 21.8925625, "018 300440", "Nikole Pašića 36", "08AM - 12AM");
+
+INSERT INTO PLACE (PlaceId, Name, CityId, PhotoURL, ReviewersNumber, GrossScore, LiveMusic, PlaceType, Coucine, Latitude, Longitude, PhoneNumber, Address, WorkingHours)
+VALUES (8, "Pleasure", 1, NULL, 0, 0, "Ne", "Restoran", "Međunarodna", 43.3177539, 21.8958874, "062 254315", "Kopitareva 7", "7:30AM - 12AM");
+
+INSERT INTO PLACE (PlaceId, Name, CityId, PhotoURL, ReviewersNumber, GrossScore, LiveMusic, PlaceType, Coucine, Latitude, Longitude, PhoneNumber, Address, WorkingHours)
+VALUES (8, "Pleasure", 1, NULL, 0, 0, "Ne", "Restoran", "Međunarodna", 43.3177539, 21.8958874, "062 254315", "Kopitareva 7", "7:30AM - 12AM");
 
 -- mozda neka forma za ovo na samom serveru ?
 INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
@@ -60,3 +70,30 @@ VALUES("Sarmice od vinove loze", "Ustvari obične sarme samo sa lozom umesto kup
 
 INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
 VALUES("Pržene tikvice", "Tikvice ali pržene.", 2, "200RSD");
+
+-- NEMIR MENI
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Budweiser (0.5l) ", "Točeno pivo Budweiser.", 5, "160RSD");
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Paulaner (0.5l) ", "Točeno pivo Paulaner.", 5, "230RSD");
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Hoegarden (0.5l) ", "Točeno pivo Hoegarden.", 5, "240RSD");
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Pilsner Urquell (0.5l) ", "Točeno pivo Pilsner.", 5, "190RSD");
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Erdinger (0.5l) ", "Točeno pivo Erdinger.", 5, "240RSD");
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Zaječarsko (0.5l) ", "Točeno pivo Zaječarsko.", 5, "135RSD");
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Pomfrit (1 kg) ", "Domaći prženi pomfrit.", 5, "400RSD");
+
+INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
+VALUES("Ćevapi (1kg)", "Ćevapi.", 5, "1200RSD");
+

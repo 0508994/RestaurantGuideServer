@@ -13,6 +13,7 @@ var rgapi = require('./routes/rgapi');
 
 var app = express();
 app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));
 var port = 8000;
 //view engine
 
