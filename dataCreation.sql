@@ -28,10 +28,10 @@ VALUES (8, "Beer garden", 1, NULL, 0, 0, "Yes", "Pivnica", "Međunarodna", 43.31
 -- neka nova mesta za bazu
 
 INSERT INTO PLACE (PlaceId, Name, CityId, PhotoURL, ReviewersNumber, GrossScore, LiveMusic, PlaceType, Coucine, Latitude, Longitude, PhoneNumber, Address, OpensAt, ClosesAt)
-VALUES (8, "Stambolijski", 1, NULL, 0, 0, "Ne", "Restoran", "Balkanska", 43.3187213, 21.8925625, "018 300440", "Nikole Pašića 36", "08:00:00", "24:00:00");
+VALUES (9, "Pleasure", 1, NULL, 0, 0, "Ne", "Restoran", "Međunarodna", 43.3177539, 21.8958874, "062 254315", "Kopitareva 7", "07:30:00", "24:00:00");
 
 INSERT INTO PLACE (PlaceId, Name, CityId, PhotoURL, ReviewersNumber, GrossScore, LiveMusic, PlaceType, Coucine, Latitude, Longitude, PhoneNumber, Address, OpensAt, ClosesAt)
-VALUES (9, "Pleasure", 1, NULL, 0, 0, "Ne", "Restoran", "Međunarodna", 43.3177539, 21.8958874, "062 254315", "Kopitareva 7", "07:30:00", "24:00:00");
+VALUES (10, "Stambolijski", 1, NULL, 0, 0, "Ne", "Restoran", "Balkanska", 43.3187213, 21.8925625, "018 300440", "Nikole Pašića 36", "08:00:00", "24:00:00");
 
 -- mozda neka forma za ovo na samom serveru ?
 INSERT INTO MENUITEM(EntryName, EntryDescription, PlaceId, EntryPrice)
