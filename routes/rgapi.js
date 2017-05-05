@@ -83,11 +83,15 @@ router.post('/getPlacesByCriterias', function(req, res){
     var coucine = req.body.coucine;
     var music = req.body.liveMusic;
     var type = req.body.type;
+    var opensAt = req.body.opensAt;
+    var closesAt = req.body.closesAt;
     console.log(coucine);
     console.log(music);
     console.log(type);
+    console.log(opensAt);
+    console.log(closesAt);
 
-    connection.query('SELECT * FROM Place WHERE Coucine = ? AND LiveMusic = ? AND PlaceType = ?', [coucine, music, type], function(error, results, fields){
+    connection.query('SELECT * FROM Place WHERE Coucine = ? AND LiveMusic = ? AND PlaceType = ? AND OpensAt <= ? AND ClosesAt >= ?  ', [coucine, music, type, opensAt, closesAt], function(error, results, fields){
         if(error) throw error;
 
         return res.send(results);
@@ -135,7 +139,7 @@ router.post('/getPhotosInformations', function(req, res){
 
     console.log(id);
 
-    connection.query('SELECT * FROM PICTURE WHERE Place_PlaceId = ?', [id], function(error, results, fields){
+    connection.query('SELECT * FROM PICTURE WHERE Place_PlaceId = ? ORDER BY Timestamp DESC', [id], function(error, results, fields){
         if(error) throw error;
 
         return res.send(results);
@@ -148,6 +152,7 @@ router.post('/createComment', function(req, res){
 
     connection.query('INSERT INTO COMMENT(Nickname, Text, Rating, Timestamp, PlaceId ) VALUES(?, ?, ?, ?, ?)', [review.nickname, review.comment, review.rating, timestamp, review.placeId], function(error, results, fields){
         if(error) throw error;
+        updateRating(review.placeId, review.rating);
 
         connection.query('SELECT * FROM COMMENT WHERE PlaceId = ? ORDER BY Timestamp DESC', [review.placeId], function(error, results, fields){
             if(error) throw error;
@@ -163,9 +168,10 @@ router.post('/imageUpload', upload.single('pic'), function (req, res) {
         console.log("PlaceId is " + req.body.placeId);
         var placeId = req.body.placeId;
         var filename = 'images/'+ req.file.filename;
-        
-        connection.query('INSERT INTO PICTURE (Name, Place_PlaceId) VALUES (?, ?) ',[filename, placeId], function (error, results, fields)
-        {    
+        var timestamp = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
+
+        connection.query('INSERT INTO PICTURE (Name, Place_PlaceId, Timestamp) VALUES (?, ?, ?) ',[filename, placeId, timestamp], function (error, results, fields)
+        {
             if (error) throw error;
                 return res.end("Success!");
         });
@@ -190,6 +196,13 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
 
 function deg2rad(deg) {
   return deg * (Math.PI/180)
+}
+
+function updateRating(placeId, rating)
+{
+  connection.query('UPDATE PLACE SET GrossScore = GrossScore + ?, ReviewersNumber = ReviewersNumber + 1 WHERE PlaceId = ?', [rating, placeId], function(error, results, fields){
+      if(error) throw error;
+    });
 }
 
 module.exports = router;
