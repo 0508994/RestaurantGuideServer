@@ -148,9 +148,9 @@ router.post('/getPhotosInformations', function(req, res){
 
 router.post('/createComment', function(req, res){
     var review = req.body.review;
-    var timestamp = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
+    //var timestamp = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
 
-    connection.query('INSERT INTO COMMENT(Nickname, Text, Rating, Timestamp, PlaceId ) VALUES(?, ?, ?, ?, ?)', [review.nickname, review.comment, review.rating, timestamp, review.placeId], function(error, results, fields){
+    connection.query('INSERT INTO COMMENT(Nickname, Text, Rating, Timestamp, PlaceId ) VALUES(?, ?, ?, now(), ?)', [review.nickname, review.comment, review.rating, review.placeId], function(error, results, fields){
         if(error) throw error;
         updateRating(review.placeId, review.rating);
 
@@ -168,9 +168,9 @@ router.post('/imageUpload', upload.single('pic'), function (req, res) {
         console.log("PlaceId is " + req.body.placeId);
         var placeId = req.body.placeId;
         var filename = 'images/'+ req.file.filename;
-        var timestamp = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
+        //var timestamp = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
 
-        connection.query('INSERT INTO PICTURE (Name, Place_PlaceId, Timestamp) VALUES (?, ?, ?) ',[filename, placeId, timestamp], function (error, results, fields)
+        connection.query('INSERT INTO PICTURE (Name, Place_PlaceId, Timestamp) VALUES (?, ?, now()) ',[filename, placeId], function (error, results, fields)
         {
             if (error) throw error;
                 return res.end("Success!");
