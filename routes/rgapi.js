@@ -8,10 +8,10 @@ var multer  = require('multer');
 var upload = multer({dest:'./public/images/'});
 
 var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database : 'RestaurantGuide_Database'
+  host     : 'sql11.freesqldatabase.com',
+  user     : 'sql11181900',
+  password : '5rxsEQXiKn',
+  database : 'sql11181900'
   //database : 'mydb'
 });
 
