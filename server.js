@@ -17,6 +17,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 var port = 8000;
 //view engine
 
+app.set('port', (process.env.PORT || port));
+
 //app.set('views',path.join(__dirname,'views'));
 //app.set('view engine','ejs');
 //app.engine('html', require('ejs').renderFile);
@@ -37,6 +39,6 @@ app.use(bodyParser.urlencoded({extended: false}));
 //app.use('/', index);
 app.use('/api', rgapi);
 
-app.listen(port, function(){
-    console.log('Server started on port', + port);
-})
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
