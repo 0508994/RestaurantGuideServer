@@ -115,7 +115,7 @@ router.post('/getPlaceMenu', function(req, res){
 
     console.log(id);
 
-    connection.query('SELECT * FROM MENUITEM WHERE PlaceId = ?', [id], function(error, results, fields){
+    connection.query('SELECT * FROM MenuItem WHERE PlaceId = ?', [id], function(error, results, fields){
         if(error) throw error;
 
         return res.send(results);
@@ -127,7 +127,7 @@ router.post('/getPlaceReviews', function(req, res){
 
     console.log(id);
 
-    connection.query('SELECT * FROM COMMENT WHERE PlaceId = ?', [id], function(error, results, fields){
+    connection.query('SELECT * FROM Comment WHERE PlaceId = ?', [id], function(error, results, fields){
         if(error) throw error;
 
         return res.send(results);
@@ -139,7 +139,7 @@ router.post('/getPhotosInformations', function(req, res){
 
     console.log(id);
 
-    connection.query('SELECT * FROM PICTURE WHERE Place_PlaceId = ? ORDER BY Timestamp DESC', [id], function(error, results, fields){
+    connection.query('SELECT * FROM Picture WHERE Place_PlaceId = ? ORDER BY Timestamp DESC', [id], function(error, results, fields){
         if(error) throw error;
 
         return res.send(results);
@@ -150,11 +150,11 @@ router.post('/createComment', function(req, res){
     var review = req.body.review;
     //var timestamp = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
 
-    connection.query('INSERT INTO COMMENT(Nickname, Text, Rating, Timestamp, PlaceId ) VALUES(?, ?, ?, now(), ?)', [review.nickname, review.comment, review.rating, review.placeId], function(error, results, fields){
+    connection.query('INSERT INTO Comment(Nickname, Text, Rating, Timestamp, PlaceId ) VALUES(?, ?, ?, now(), ?)', [review.nickname, review.comment, review.rating, review.placeId], function(error, results, fields){
         if(error) throw error;
         updateRating(review.placeId, review.rating);
 
-        connection.query('SELECT * FROM COMMENT WHERE PlaceId = ? ORDER BY Timestamp DESC', [review.placeId], function(error, results, fields){
+        connection.query('SELECT * FROM Comment WHERE PlaceId = ? ORDER BY Timestamp DESC', [review.placeId], function(error, results, fields){
             if(error) throw error;
 
             return res.send(results);
@@ -170,7 +170,7 @@ router.post('/imageUpload', upload.single('pic'), function (req, res) {
         var filename = 'images/'+ req.file.filename;
         //var timestamp = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
 
-        connection.query('INSERT INTO PICTURE (Name, Place_PlaceId, Timestamp) VALUES (?, ?, now()) ',[filename, placeId], function (error, results, fields)
+        connection.query('INSERT INTO Picture (Name, Place_PlaceId, Timestamp) VALUES (?, ?, now()) ',[filename, placeId], function (error, results, fields)
         {
             if (error) throw error;
                 return res.end("Success!");
@@ -200,7 +200,7 @@ function deg2rad(deg) {
 
 function updateRating(placeId, rating)
 {
-  connection.query('UPDATE PLACE SET GrossScore = GrossScore + ?, ReviewersNumber = ReviewersNumber + 1 WHERE PlaceId = ?', [rating, placeId], function(error, results, fields){
+  connection.query('UPDATE Place SET GrossScore = GrossScore + ?, ReviewersNumber = ReviewersNumber + 1 WHERE PlaceId = ?', [rating, placeId], function(error, results, fields){
       if(error) throw error;
     });
 }
